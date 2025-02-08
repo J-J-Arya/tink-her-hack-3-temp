@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width ,initial-scale=1.0">
+    <title>RoomRevamp</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        setTimeout(() => {
+            document.getElementById("splash-screen").classList.add("fade-out");
+        }, 2000); 
+
+        setTimeout(() => {
+            window.location.href = "home.html"; 
+        }, 3000);
+    </script>
+
+</head>
+<body>
+    <div id="splash-screen">
+        <img src="logo.jpg" alt="APP-LOGO">
+        <h3 id="Splash-Name">Live Smart,Share Smart</h3>
+    </div>
+</body>
+</html>
