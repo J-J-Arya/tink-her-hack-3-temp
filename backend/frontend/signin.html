@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up / Sign In</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Name" required>
+    <input type="email" id="signup_email" placeholder="Email" required>
+    <input type="password" id="signup_password" placeholder="Password" required>
+    <input type="text" id="hostel_name" placeholder="Hostel Name" required>
+    <input type="text" id="student_id" placeholder="Student ID" required>
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <h2>Sign In</h2>
+  <form id="signinForm">
+    <input type="text" id="signin_username" placeholder="Name" required>
+    <input type="email" id="signin_email" placeholder="Email" required>
+    <input type="password" id="signin_password" placeholder="Password" required>
+    <input type="text" id="signin_hostel_name" placeholder="Hostel Name" required>
+    <input type="text" id="signin_student_id" placeholder="Student ID" required>
+    <button type="submit">Sign In</button>
+  </form>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const user = {
+        username: document.getElementById('username').value,
+        email: document.getElementById('signup_email').value,
+        password: document.getElementById('signup_password').value,
+        hostel_name: document.getElementById('hostel_name').value,
+        student_id: document.getElementById('student_id').value,
+        role: "user",
+        institution_id: localStorage.getItem('selectedCollege')
+      };
+
+      fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.message === "User Registered") window.location.href = 'login.html';
+      })
+      .catch(err => console.error('Error:', err));
+    });
+
+    document.getElementById('signinForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const user = {
+        username: document.getElementById('signin_username').value,
+        email: document.getElementById('signin_email').value,
+        password: document.getElementById('signin_password').value,
+        hostel_name: document.getElementById('signin_hostel_name').value,
+        student_id: document.getElementById('signin_student_id').value,
+        role: "user",
+        institution_id: localStorage.getItem('selectedCollege')
+      };
+
+      fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          window.location.href = 'dashboard.html';
+        }
+      })
+      .catch(err => console.error('Error:', err));
+    });
+  </script>
+</body>
+</html>

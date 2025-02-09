@@ -22,7 +22,7 @@
     <p>Buy and sell items within your hostel community. Find quality products at reasonable prices from your hostel mates.</p>
   </section>
 
-  <!-- Search Bar Section -->
+  <!-- Search Bar and Registration Section -->
   <section class="search">
     <h2>Select Your College</h2>
     <form id="collegeForm">
@@ -33,6 +33,7 @@
       <button type="submit">Submit</button>
     </form>
     <button id="newRegistrationButton">New Registration</button>
+
     <div id="enrolledColleges" class="colleges-container"></div> <!-- Display enrolled colleges here -->
   </section>
 
@@ -42,6 +43,7 @@
   </footer>
 
   <script>
+    // Submit form to save selected college and redirect to login
     document.getElementById('collegeForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const college = document.getElementById('college').value;
@@ -49,19 +51,24 @@
       window.location.href = 'login.html';
     });
 
+    // Redirect to new registration page when clicked
     document.getElementById('newRegistrationButton').addEventListener('click', function() {
       window.location.href = 'register-institution.html';
     });
 
+    // Fetch and display colleges in dropdown and enrolled list
     function loadInstitutions() {
       fetch("http://localhost:5000/api/institutions")
       .then(res => res.json())
       .then(data => {
+        // Populate select dropdown
         const select = document.getElementById("college");
         select.innerHTML = '<option value="" disabled selected>Select your college</option>';
         data.forEach(college => {
           select.innerHTML += `<option value="${college.id}">${college.name}</option>`;
         });
+
+        // Display enrolled colleges in container
         const container = document.getElementById("enrolledColleges");
         container.innerHTML = '';
         data.forEach(college => {

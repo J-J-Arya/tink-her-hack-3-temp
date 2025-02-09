@@ -4,18 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sell Product</title>
-  <link rel="stylesheet" href="styless.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h2>Sell Product</h2>
-  <form id="sellForm" enctype="multipart/form-data">
-    <input type="text" id="name" name="name" placeholder="Product Name" required>
-    <input type="text" id="description" name="description" placeholder="Description" required>
-    <input type="number" id="price" name="price" placeholder="Price" required>
-    <input type="text" id="student_id" name="student_id" placeholder="Student ID" required>
-    <input type="file" id="photo" name="photo" required>
-    <button type="submit">List Product</button>
-  </form>
+  <div class="container">
+    <div class="form-container">
+      <form id="sellForm" enctype="multipart/form-data">
+        <input type="text" id="name" name="name" placeholder="Product Name" required>
+        <input type="text" id="description" name="description" placeholder="Description" required>
+        <input type="number" id="price" name="price" placeholder="Price" required>
+        <input type="text" id="student_id" name="student_id" placeholder="Student ID" required>
+        <input type="file" id="photo" name="photo" required>
+        <button type="submit">List Product</button>
+      </form>
+    </div>
+    <div class="products-container">
+      <button id="fetchProductsButton">Available Products</button>
+      <div id="productsList"></div>
+    </div>
+  </div>
   <script>
     document.getElementById('sellForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -27,14 +35,46 @@
       formData.append('photo', document.getElementById('photo').files[0]);
       formData.append('seller_id', localStorage.getItem('user_id')); // Assuming user_id is stored in localStorage
 
+      console.log("Sending product listing request:", formData);
       fetch("http://localhost:5000/api/sell", {
         method: "POST",
         body: formData
       })
       .then(res => res.json())
-      .then(data => alert(data.message))
+      .then(data => {
+        console.log("Received response:", data);
+        alert(data.message);
+        fetchProducts(); // Fetch products after listing a new one
+      })
       .catch(err => console.error('Error:', err));
     });
+
+    document.getElementById('fetchProductsButton').addEventListener('click', fetchProducts);
+
+    function fetchProducts() {
+      fetch("http://localhost:5000/api/products")
+      .then(res => res.json())
+      .then(data => {
+        const productsList = document.getElementById("productsList");
+        productsList.innerHTML = "";
+        data.forEach(product => {
+          const productDiv = document.createElement("div");
+          productDiv.className = "product";
+          productDiv.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p>Price: $${product.price}</p>
+            <p>Student ID: ${product.student_id}</p>
+            <img src="http://localhost:5000/${product.photo}" alt="${product.name}" width="100">
+          `;
+          productsList.appendChild(productDiv);
+        });
+      })
+      .catch(err => console.error('Error fetching products:', err));
+    }
+
+    // Fetch products on page load
+    fetchProducts();
   </script>
 </body>
 </html>
