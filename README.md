@@ -16,6 +16,8 @@
 ### Project Description
 [RoomRevamp is a platform that helps hostel students buy, share, and resell items easily. It allows users to share common items with roommates to avoid conflicts, resell items they no longer need, and find affordable second-hand products. By maximizing resources and reducing waste, RoomRevamp makes hostel living more efficient, sustainable, and cost-effective.]
 
+----!!THE PROJECT STARTS FROM splash.html----
+
 ### The Problem statement
 [RoomRevamp is solving the ridiculous problem of ownership disputes and wasteful purchases in hostel living. 
 
