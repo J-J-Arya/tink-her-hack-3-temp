@@ -60,7 +60,7 @@
         const select = document.getElementById("college");
         select.innerHTML = '<option value="" disabled selected>Select your college</option>';
         data.forEach(college => {
-          select.innerHTML += <option value="${college.id}">${college.name}</option>;
+          select.innerHTML += `<option value="${college.id}">${college.name}</option>`;
         });
         const container = document.getElementById("enrolledColleges");
         container.innerHTML = '';
