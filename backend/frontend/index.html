@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoomRevamp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header with Logo -->
+  <header class="header">
+    <div class="logo">
+      <img src="logo.jpg" alt="RoomRevamp Logo"> <!-- Add your logo image here -->
+    </div>
+    <div class="welcome">
+      <h1>Welcome to RoomRevamp</h1>
+    </div>
+  </header>
+
+  <!-- Description Section -->
+  <section class="description">
+    <p>Buy and sell items within your hostel community. Find quality products at reasonable prices from your hostel mates.</p>
+  </section>
+
+  <!-- Search Bar Section -->
+  <section class="search">
+    <h2>Select Your College</h2>
+    <form id="collegeForm">
+      <select id="college" name="college" required>
+        <option value="" disabled selected>Select your college</option>
+        <!-- Options will be populated dynamically -->
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+    <button id="newRegistrationButton">New Registration</button>
+    <div id="enrolledColleges" class="colleges-container"></div> <!-- Display enrolled colleges here -->
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 RoomRevamp. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('collegeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const college = document.getElementById('college').value;
+      localStorage.setItem('selectedCollege', college);
+      window.location.href = 'login.html';
+    });
+
+    document.getElementById('newRegistrationButton').addEventListener('click', function() {
+      window.location.href = 'register-institution.html';
+    });
+
+    function loadInstitutions() {
+      fetch("http://localhost:5000/api/institutions")
+      .then(res => res.json())
+      .then(data => {
+        const select = document.getElementById("college");
+        select.innerHTML = '<option value="" disabled selected>Select your college</option>';
+        data.forEach(college => {
+          select.innerHTML += <option value="${college.id}">${college.name}</option>;
+        });
+        const container = document.getElementById("enrolledColleges");
+        container.innerHTML = '';
+        data.forEach(college => {
+          container.innerHTML += `<div class='college'>
+            <h2>${college.name}</h2>
+            <p>${college.location}</p>
+          </div>`;
+        });
+      })
+      .catch(err => console.error('Error fetching colleges:', err));
+    }
+
+    // Load institutions on page load
+    loadInstitutions();
+  </script>
+</body>
+</html>

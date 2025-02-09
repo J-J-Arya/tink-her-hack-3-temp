@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@600&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the page takes at least the full height of the screen */
+}
+
+.header {
+    background: #333;
+    color: white;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100px;
+    margin-right: 100px;
+}
+
+.welcome {
+    text-align: left;
+}
+
+.description {
+    text-align: center;
+    padding: 20px;
+    flex: 1; /* Allow description to take up remaining space */
+}
+
+.search {
+    text-align: center;
+    padding: 20px;
+}
+
+.search select {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search button:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+    text-align: center;
+    background: #333;
+    color: white;
+    padding: 20px;
+    width: 100%;
+}
+
+#search-results {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.colleges-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.college {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    background: white;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.college h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.college p {
+    margin: 5px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+form input, form button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <input type="text" id="username" name="username" placeholder="Name" required>
+    <input type="email" id="signup_email" name="email" placeholder="Email" required>
+    <input type="password" id="signup_password" name="password" placeholder="Password" required>
+    <input type="text" id="hostel_name" name="hostel_name" placeholder="Hostel Name" required>
+    <input type="text" id="student_id" name="student_id" placeholder="Student ID" required>
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          alert("Login successful");
+          // Redirect based on role
+          if (data.user.role === "admin") {
+            window.location.href = "admin-dashboard.html";
+          } else if (data.user.role === "warden") {
+            window.location.href = "warden-dashboard.html";
+          } else {
+            window.location.href = "user-dashboard.html";
+          }
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(err => console.error('Error:', err));
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('signup_email').value;
+      const password = document.getElementById('signup_password').value;
+      const hostel_name = document.getElementById('hostel_name').value;
+      const student_id = document.getElementById('student_id').value;
+      const institution_id = localStorage.getItem('selectedCollege');
+      fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password, hostel_name, student_id, role: "user", institution_id })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(err => console.error('Error:', err));
+    });
+  </script>
+</body>
+</html>

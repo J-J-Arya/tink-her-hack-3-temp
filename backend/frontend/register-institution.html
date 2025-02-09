@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Institution</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Register Your Institution</h2>
+  <form id="institutionForm">
+    <input type="text" id="name" name="name" placeholder="Institution Name" required>
+    <input type="text" id="location" name="location" placeholder="Location" required>
+    <input type="email" id="warden_email" name="warden_email" placeholder="Warden Email" required>
+    <input type="password" id="warden_password" name="warden_password" placeholder="Warden Password" required>
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    document.getElementById('institutionForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const location = document.getElementById('location').value;
+      const warden_email = document.getElementById('warden_email').value;
+      const warden_password = document.getElementById('warden_password').value;
+      fetch("http://localhost:5000/api/register-institution", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, location, warden_email, warden_password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        window.location.href = 'index.html';
+      })
+      .catch(err => console.error('Error:', err));
+    });
+  </script>
+</body>
+</html>
